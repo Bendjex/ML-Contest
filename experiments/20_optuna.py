@@ -52,7 +52,7 @@ import torch.nn as nn  # noqa: E402
 import torch.nn.functional as F  # noqa: E402
 
 BATCH = 256
-N_TRIALS = 40
+N_TRIALS = 50
 
 # --------------------------------------------------------------- data (loaded once)
 class Data:
@@ -92,12 +92,12 @@ def meta_matrix(ds, idx):
 
 
 class CNN(nn.Module):
-    def __init__(self, ch, k, dil3):
+    def __init__(self, ch, k, dil2, dil3):
         super().__init__()
-        self.ch, self.k, self.dil3 = ch, k, dil3
+        self.ch, self.k, self.dil2, self.dil3 = ch, k, dil2, dil3
         self.c1 = nn.Conv1d(4, ch[0], k[0], padding=k[0] // 2)
         self.b1 = nn.BatchNorm1d(ch[0])
-        self.c2 = nn.Conv1d(ch[0], ch[1], k[1], padding=k[1] // 2)
+        self.c2 = nn.Conv1d(ch[0], ch[1], k[1], padding=dil2 * (k[1] // 2), dilation=dil2)
         self.b2 = nn.BatchNorm1d(ch[1])
         self.c3 = nn.Conv1d(ch[1], ch[2], k[2], padding=(k[2] // 2) * dil3, dilation=dil3)
         self.b3 = nn.BatchNorm1d(ch[2])
@@ -124,7 +124,7 @@ def export_np(model):
     return w
 
 
-def forward_np(x, w, k, dil3, meta_vec):
+def forward_np(x, w, k, dil2, dil3, meta_vec):
     def conv(x, W, b, pad, dil=1):
         C_out, C_in, K = W.shape
         xp = np.pad(x, ((0, 0), (pad, pad)))
@@ -139,7 +139,7 @@ def forward_np(x, w, k, dil3, meta_vec):
         return x[:, :(L // p) * p].reshape(C, L // p, p).mean(-1)
 
     x = pavg(np.maximum(conv(x, w["c1_W"], w["c1_b"], k[0] // 2), 0), 4)
-    x = pavg(np.maximum(conv(x, w["c2_W"], w["c2_b"], k[1] // 2), 0), 4)
+    x = pavg(np.maximum(conv(x, w["c2_W"], w["c2_b"], dil2 * (k[1] // 2), dil2), 0), 4)
     x = np.maximum(conv(x, w["c3_W"], w["c3_b"], (k[2] // 2) * dil3, dil3), 0)
     p = np.concatenate([x.mean(1), x.max(1), x.std(1), meta_vec])
     return w["fc_W"] @ p + w["fc_b"]
@@ -152,30 +152,35 @@ def score_from(pc, lat_s):
 
 
 def objective(trial):
-    ch = trial.suggest_categorical("ch", [(16, 32, 64), (24, 48, 96), (12, 24, 48),
-                                          (20, 40, 80), (16, 32, 48), (24, 48, 72)])
-    k1 = trial.suggest_categorical("k1", [7, 9, 11])
-    k3 = trial.suggest_categorical("k3", [9, 11, 13])
-    dil3 = trial.suggest_categorical("dil3", [2, 3, 4])
-    epochs = trial.suggest_int("epochs", 25, 60)
-    lr = trial.suggest_float("lr", 5e-4, 2e-3, log=True)
+    ch = trial.suggest_categorical("ch", [(8, 16, 32), (12, 24, 48), (16, 32, 64),
+                                          (16, 32, 48), (20, 40, 80), (24, 48, 72),
+                                          (24, 48, 96), (32, 64, 128)])
+    k1 = trial.suggest_categorical("k1", [3, 5, 7, 9, 11])
+    k2 = trial.suggest_categorical("k2", [5, 7, 9, 11, 13])
+    k3 = trial.suggest_categorical("k3", [5, 7, 9, 11, 13])
+    dil2 = trial.suggest_categorical("dil2", [1, 2])
+    dil3 = trial.suggest_categorical("dil3", [1, 2, 3, 4])
+    epochs = trial.suggest_int("epochs", 25, 70)
+    lr = trial.suggest_float("lr", 3e-4, 3e-3, log=True)
+    wd = trial.suggest_float("weight_decay", 1e-6, 1e-3, log=True)
+    ls = trial.suggest_categorical("label_smoothing", [0.0, 0.05, 0.1])
     sigma = trial.suggest_float("sigma", 0.05, 0.18)
     nanp = trial.suggest_float("nanp", 0.008, 0.03)
     c6w = trial.suggest_float("c6w", 1.0, 3.0)
     c7w = trial.suggest_float("c7w", 0.7, 2.5)
-    k = (k1, 9, k3)
+    k = (k1, k2, k3)
 
     torch.manual_seed(trial.number)
-    m = CNN(ch, k, dil3)
+    m = CNN(ch, k, dil2, dil3)
     cw_np = np.ones(8, dtype=np.float64)
     cw_np[6] = c6w
     cw_np[7] = c7w
     base = len(D.ytr) / (8.0 * D.counts)          # balanced base weights
     cw = torch.tensor((base * cw_np).astype(np.float32))
 
-    opt = torch.optim.Adam(m.parameters(), lr=lr)
+    opt = torch.optim.Adam(m.parameters(), lr=lr, weight_decay=wd)
     sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=epochs)
-    lossf = nn.CrossEntropyLoss(weight=cw)
+    lossf = nn.CrossEntropyLoss(weight=cw, label_smoothing=ls)
     L = 256
     ar = torch.arange(L)
     best, state = -1.0, None
@@ -213,12 +218,12 @@ def objective(trial):
         preds_d = np.empty(len(D.yd), dtype=np.int64)
         t0 = time.perf_counter()
         for j in range(len(D.yd)):
-            preds_d[j] = int(np.argmax(forward_np(D.Xd[j], w, m.k, m.dil3, D.Md[j])))
+            preds_d[j] = int(np.argmax(forward_np(D.Xd[j], w, m.k, m.dil2, m.dil3, D.Md[j])))
         np_fwd = (time.perf_counter() - t0) / len(D.yd)
         preds_v = np.empty(D.n_val_eval, dtype=np.int64)
         for i in range(D.n_val_eval):
             j = int(D.val_idx[i])
-            preds_v[i] = int(np.argmax(forward_np(D.Xnp[j], w, m.k, m.dil3, D.Mnp_val[i])))
+            preds_v[i] = int(np.argmax(forward_np(D.Xnp[j], w, m.k, m.dil2, m.dil3, D.Mnp_val[i])))
     ort_est = 61e-6 + 0.24 * np_fwd
     pc_d = [float((preds_d[D.yd == c] == c).mean()) for c in range(8)]
     pc_v = [float((preds_v[D.yv_eval == c] == c).mean()) for c in range(8)]
@@ -259,7 +264,7 @@ def main():
     D.yva_np = y[val]
     D.Mva = torch.from_numpy(meta_matrix(ds, val))
     D.Mnp_val = meta_matrix(ds, val)           # numpy meta for forward_np
-    D.val_idx = np.arange(2000)
+    D.val_idx = val[:2000]                       # BUGFIX: val[i], NOT i (was scoring preds vs wrong labels)
     D.n_val_eval = 2000
     D.yv_eval = y[val[:2000]]
     D.yd = np.asarray(demo.labels)
@@ -270,7 +275,7 @@ def main():
     storage = f"sqlite:///{OPTUNA_DIR / 'study.db'}"
     study = optuna.create_study(
         study_name="cnn_hpo", direction="maximize",
-        sampler=optuna.samplers.TPESampler(seed=0, n_startup_trials=10),
+        sampler=optuna.samplers.TPESampler(seed=0, n_startup_trials=15),
         pruner=optuna.pruners.MedianPruner(n_warmup_steps=8, interval_steps=2),
         storage=storage, load_if_exists=True,
     )
