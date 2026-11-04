@@ -1,0 +1,21 @@
+=== start 2026-11-04T13:08:51+01:00 ===
+prep_batch(raw window): (100000, 1024) in 2s
+baseline features: (100000, 101) in 52s
+baselines (101 feats): tree_d14 0.638 | gbm300 0.820
+mlp val_accs: ['0.487', '0.488', '0.489'] | ensemble(3) 0.528
+
+LATENCY (single-thread, one call at a time, demo n=400):
+  prep_one                   75 us   n(60s) ~    799,903
+  mlp numpy fwd             110 us   n(60s) ~    545,995
+  ensemble(3) numpy         181 us   n(60s) ~    331,419
+  mlp sklearn predict       357 us   n(60s) ~    167,935
+  tree d14 + feats          676 us   n(60s) ~     88,726
+  gbm300 + feats          18468 us   n(60s) ~      3,249
+
+SCORE PROJECTION (T_k = sqrt(n_k)*(acc-0.33*err)*acc^2, balanced, geomean):
+  mlp s0 numpy         acc=0.487 lat=    110us -> score ~     19.7
+  ensemble(3) numpy    acc=0.528 lat=    181us -> score ~     21.1
+  tree d14 feats       acc=0.638 lat=    676us -> score ~     22.2
+  gbm300 feats         acc=0.820 lat=  18468us -> score ~     10.3
+=== ALL DONE ===
+=== DONE OK 2026-11-04T13:10:35+01:00 ===

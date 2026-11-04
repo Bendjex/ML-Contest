@@ -1,0 +1,31 @@
+=== start 2026-11-04T14:28:43+01:00 ===
+prep val: (20000, 4, 256) in 0s
+numpy-path val_acc=0.8899 (7s for 20k, 344 us/sample unthrottled)
+confusion (rows=true, cols=pred):
+   2542     6    55   226    14    13    64   168  | class 0
+      3  2840     0     2     0     0     2     0  | class 1
+     48     0  2636    17     2     1    13    41  | class 2
+    157     2    14  2243     2     1    20    56  | class 3
+     62     3     5    18  2309    27     3     6  | class 4
+     58     3     5    20    35  2293     8     4  | class 5
+     94     2     8    42     0     0  1548   369  | class 6
+    160     2    15    68     3     0   255  1387  | class 7
+per-class acc: ['0.823', '0.998', '0.956', '0.899', '0.949', '0.945', '0.750', '0.734']
+
+LATENCY: 465 us/call (fwd alone 449 us)
+n(60 s) ~ 129,143 | n_k ~ 16,143
+
+SCORE PROJECTION per class (alpha=0.5, p=2, lambda=0.33):
+class    acc      T_k
+    0  0.823     65.9
+    1  0.998    126.0
+    2  0.956    109.2
+    3  0.899     88.9
+    4  0.949    106.7
+    5  0.945    105.2
+    6  0.750     47.8
+    7  0.734     44.2
+
+GEOMEAN SCORE ~ 81.3  (tree d14: ~22, GBM: ~10)
+=== ALL DONE ===
+=== DONE OK 2026-11-04T14:28:51+01:00 ===

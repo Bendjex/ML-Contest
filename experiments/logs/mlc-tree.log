@@ -1,0 +1,34 @@
+++ date -Is
++ echo '=== start 2026-11-04T12:23:09+01:00 ==='
+=== start 2026-11-04T12:23:09+01:00 ===
++ python3 -m venv /tmp/mlc-venv
++ /tmp/mlc-venv/bin/pip install -q --upgrade pip
++ /tmp/mlc-venv/bin/pip install -q numpy scikit-learn
++ /tmp/mlc-venv/bin/python examples/tree_train.py
+features: 101 dims x 100000 samples | 52s total | 518 us/sample
+tree depth= 6: val_acc=0.558 leaves=    50 fit=5s
+tree depth=10: val_acc=0.609 leaves=   306 fit=8s
+tree depth=14: val_acc=0.638 leaves=  1379 fit=10s
+tree depth=20: val_acc=0.635 leaves=  5568 fit=13s
+tree depth=28: val_acc=0.614 leaves= 11136 fit=15s
+BEST TREE: depth=14 val_acc=0.638
+gbm fit: 31s
+GBM val_acc=0.820
+Traceback (most recent call last):
+  File "/tmp/ml-contest-materials/examples/tree_train.py", line 111, in <module>
+    main()
+    ~~~~^^
+  File "/tmp/ml-contest-materials/examples/tree_train.py", line 95, in main
+    lat_tree = per_call_latency(TreeModel(tree), demo)
+  File "/tmp/ml-contest-materials/examples/tree_train.py", line 30, in per_call_latency
+    samples = [ds[i] for i in range(n)]
+               ~~^^^
+  File "/tmp/ml-contest-materials/competition_api.py", line 98, in __getitem__
+    return Sample(self.series[j], self.meta_at(j))
+                  ~~~~~~~~~~~^^^
+  File "/tmp/mlc-venv/lib/python3.14/site-packages/numpy/_core/memmap.py", line 359, in __getitem__
+    res = super().__getitem__(index)
+IndexError: index 400 is out of bounds for axis 0 with size 400
++ echo '=== STEP FAIL train ==='
+=== STEP FAIL train ===
++ exit 1

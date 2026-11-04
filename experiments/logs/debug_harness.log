@@ -1,0 +1,16 @@
+=== start 2026-11-04T15:35:43+01:00 ===
+[ok] submission Model geladen: /home/olorin/.openclaw/workspace/projects/gdg-uam-ml-contest/submission/cnn_v6.onnx
+
+[A] model.py auf test_demo: acc=0.790
+    pred-Verteilung: [41, 50, 48, 50, 62, 58, 31, 60]
+    true-Verteilung: [50, 50, 50, 50, 50, 50, 50, 50]
+[B] numpy+prep_batch auf test_demo: acc=0.790
+[C] prep max|diff|: mean=0.000 max=0.000
+[D] Abweichungen model.py vs numpy: 0/400
+
+[E] model.py auf 2k train-val: acc=0.906 (soll 0.90)
+    pred-Verteilung: [338, 286, 278, 240, 244, 228, 172, 214]
+[F] ORT+prep_batch auf 2k val: acc=0.906
+[G] logits |diff| _prep-vs-prep_batch Graph: 5.722e-06
+=== DEBUG DONE ===
+=== DONE OK 2026-11-04T15:35:44+01:00 ===

@@ -1,0 +1,20 @@
+=== start 2026-11-04T14:33:47+01:00 ===
+train: (100000, 4, 256) float32 | demo: (400, 4, 256)
+[1/8] class distribution (0s)
+meta: sample_rate [1.0, 2.0], group ['A', 'B', 'C'], level [-4.00, 4.00]
+[2/8] meta overview (1s)
+[3/8] examples (4s)
+[4/8] spectra (4s)
+[5/8] acf (5s)
+[6/8] nan (5s)
+[7/8] raw std (6s)
+forward 20k: 7s
+[8/8] confusion done (13s)
+
+TEXT SUMMARY
+  series: (100000, 4, 256) float32, ~0.7% NaN
+  classes: [15993, 14027, 13937, 11915, 11980, 12160, 10123, 9865] (ratio 1.62x)
+  CNN val acc: 0.8899
+  weak pairs (confusions >200): [(226, 0, 3), (369, 6, 7), (255, 7, 6)]
+=== ALL DONE ===
+=== DONE OK 2026-11-04T14:34:28+01:00 ===
