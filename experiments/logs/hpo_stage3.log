@@ -1,0 +1,8 @@
+=== start 2026-11-04T18:19:00+01:00 ===
+==============================================================================
+HPO STAGE 3 — untested levers on avg_aug40_c6w2
+objective: demo score (official formula, calib. ORT lat) + val score (control)
+==============================================================================
+
+probe      val_acc demo_acc  np_us  ort_us score_demo score_val  demo pc6/pc7
+meta         0.905    0.782    403     158       87.3     152.8  0.58/0.56  (314s)
