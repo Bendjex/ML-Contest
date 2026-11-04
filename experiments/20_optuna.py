@@ -52,7 +52,24 @@ import torch.nn as nn  # noqa: E402
 import torch.nn.functional as F  # noqa: E402
 
 BATCH = 256
-N_TRIALS = 50
+N_TRIALS = 25
+
+# Seed configs from the crashed study's top trials (decoded from sqlite indices).
+# These give TPE known-good starting points so the guided search starts immediately.
+BEST_SEED_CONFIGS = [
+    # trial 3 (best combined 124.3): k2=5, no smoothing, moderate weights
+    dict(ch="24_48_72", k1=9, k2=5, k3=9, dil2=1, dil3=2, epochs=29,
+         lr=0.00249, weight_decay=0.000139, label_smoothing=0.0,
+         sigma=0.071, nanp=0.022, c6w=1.25, c7w=2.23),
+    # trial 8 (best demo 95.3): wide channels, c6w high
+    dict(ch="24_48_96", k1=9, k2=9, k3=7, dil2=1, dil3=2, epochs=34,
+         lr=0.000865, weight_decay=0.0000014, label_smoothing=0.0,
+         sigma=0.090, nanp=0.021, c6w=2.92, c7w=1.86),
+    # trial 5 (k1=3 experiment): extreme small kernel + full dilation
+    dict(ch="24_48_96", k1=3, k2=7, k3=11, dil2=2, dil3=4, epochs=33,
+         lr=0.00269, weight_decay=0.0000588, label_smoothing=0.0,
+         sigma=0.083, nanp=0.013, c6w=2.04, c7w=0.75),
+]
 
 # --------------------------------------------------------------- data (loaded once)
 class Data:
@@ -152,9 +169,10 @@ def score_from(pc, lat_s):
 
 
 def objective(trial):
-    ch = trial.suggest_categorical("ch", [(8, 16, 32), (12, 24, 48), (16, 32, 64),
-                                          (16, 32, 48), (20, 40, 80), (24, 48, 72),
-                                          (24, 48, 96), (32, 64, 128)])
+    ch_str = trial.suggest_categorical("ch", ["8_16_32", "12_24_48", "16_32_64",
+                                              "16_32_48", "20_40_80", "24_48_72",
+                                              "24_48_96", "32_64_128"])
+    ch = tuple(int(x) for x in ch_str.split("_"))
     k1 = trial.suggest_categorical("k1", [3, 5, 7, 9, 11])
     k2 = trial.suggest_categorical("k2", [5, 7, 9, 11, 13])
     k3 = trial.suggest_categorical("k3", [5, 7, 9, 11, 13])
@@ -275,11 +293,14 @@ def main():
     storage = f"sqlite:///{OPTUNA_DIR / 'study.db'}"
     study = optuna.create_study(
         study_name="cnn_hpo", direction="maximize",
-        sampler=optuna.samplers.TPESampler(seed=0, n_startup_trials=15),
+        sampler=optuna.samplers.TPESampler(seed=0, n_startup_trials=5),
         pruner=optuna.pruners.MedianPruner(n_warmup_steps=8, interval_steps=2),
         storage=storage, load_if_exists=True,
     )
     n_done = len([t for t in study.trials if t.state.is_finished()])
+    # seed TPE with known-good configs from the crashed study
+    for cfg in BEST_SEED_CONFIGS:
+        study.enqueue_trial(cfg)
     print(f"study cnn_hpo: {n_done} finished trials in db, running {N_TRIALS} more", flush=True)
     study.optimize(objective, n_trials=N_TRIALS, gc_after_trial=True)
 
