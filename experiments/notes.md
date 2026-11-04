@@ -274,6 +274,37 @@ Honest reading:
 - v8 is the submission (better balanced classes, same latency). Class 6 remains the
   bottleneck (demo 0.54 after c6w2).
 
+## v10 (19_hpo_stage3, DONE 18:52) — stage 3 complete
+
+All on stage-2 winner base (avg_pool, meta off unless noted), objective = 0.5*demo + 0.5*val:
+
+| probe | val_acc | demo_acc | score_demo | score_val | pc6/pc7 (demo) |
+|---|---|---|---|---|---|
+| **k1_7** | 0.902 | **0.805** | **97.9** | **157.1** | 0.58/0.64 |
+| ep60 | 0.907 | 0.797 | 92.8 | 157.0 | 0.56/0.58 |
+| meta | 0.905 | 0.782 | 87.3 | 152.8 | 0.58/0.56 |
+| augheavy | 0.903 | 0.785 | 87.0 | 154.5 | 0.54/0.60 |
+| c67w2 | 0.902 | 0.782 | 81.5 | 155.4 | 0.40/0.70 |
+| dil3_4 | 0.901 | 0.767 | 78.6 | 149.9 | 0.50/0.52 |
+
+- **k1=7 is the surprise winner** (smaller first kernel): best demo acc AND cheaper
+  latency (386 vs 403 µs numpy). Combined 127.5.
+- ep60 confirms: longer training keeps helping.
+- meta confirmed (+6 over stage-2 baseline 81.5).
+- c67w2 backfired on demo: pushes 7 to 0.70 but crashes 6 to 0.40 — geomean says no.
+- dil3_4 loses; dil3=2 stays.
+- Caveat: demo n=50/class → per-class numbers bounce ±7pp; rankings validated
+  against val (n=250/class) which agrees on k1_7/ep60/meta.
+
+## v11 (20_optuna, RUNNING since 18:52) — TPE search on 10-dim space
+
+Search space: ch (6 triples) × k1 (7/9/11) × k3 (9/11/13) × dil3 (2/3/4) × epochs
+(25-60) × lr (log 5e-4..2e-3) × sigma (0.05..0.18) × nanp (0.008..0.03) × c6w
+(1..3) × c7w (0.7..2.5). Fixed: avg_pool, meta features, mean+max+std gp, ReLU.
+MedianPruner (warmup 8 ep), 40 trials, sqlite storage (resumable), every trial
+saves weights. Objective = 0.5*demo + 0.5*val (official formula, calibrated latency).
+ETA ~22:00 (pruned trials ~2 min, full ~6 min).
+
 ## Open questions
 
 1. Does MLP@300it converge to ≥0.8? If not: more iters, wider (512,256), or 1D-CNN.
