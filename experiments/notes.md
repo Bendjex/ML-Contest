@@ -313,3 +313,26 @@ ETA ~22:00 (pruned trials ~2 min, full ~6 min).
 4. sample_rate/group as input features for the net (cheap, one-hot + scalar).
 5. Per-class calibration: geomean punishes one weak class; check per-class acc of ensemble.
 6. Final submission repo: numpy-only forward (no sklearn at eval → lean requirements.txt).
+## v12 (20_optuna + 21_final_export + 22_harness, DONE 2026-11-05 10:32) — FINAL 🎯
+
+Optuna study complete (25 trials, 12 pruned, 13 completed). Best trial 20:
+ch=(24,48,72), k=(7,13,9), dil2=1, dil3=2, meta, avg_pool, mms, 29 epochs,
+lr=0.00163, wd=2.2e-4, ls=0.05, sigma=0.10, nanp=0.016, c6w=1.75, c7w=1.94.
+
+Exported as cnn_final.onnx (192 KB, two inputs: series + meta).
+FFN folded, verified vs numpy (1.4e-06), ORT single-thread 169 µs/call.
+
+**Official harness.py evaluate (3 runs, train_100k stream):**
+
+| metric | v6 (max_pool) | v8 (avg_pool, c6w2) | FINAL (optuna) |
+|---|---|---|---|
+| score | 78.16 | 78.71 | **85.87** |
+| acc | 91.1% | 91.2% | **92.95%** |
+| demo score | 2.663 | 2.649 | **3.198** |
+| demo acc | 79.0% | 77.5% | **80.75%** |
+| latency | 0.18 ms | 0.18 ms | 0.20 ms |
+
+- All 3 runs identical (85.87). Demo per-class: [0.70, 1.00, 0.92, 0.68, 0.96,
+  0.90, 0.58, 0.72] — class 6 improved from 0.36 (v6) to 0.58, class 3 from 0.68.
+- vs tree baseline (~22): **3.9× improvement**.
+- Submission-ready: model.py + cnn_final.onnx + requirements.txt.

@@ -1,3 +1,47 @@
 === start 2026-11-04T22:50:00+01:00 ===
 [I 2026-11-04 22:50:04,175] A new study created in RDB with name: cnn_hpo
 study cnn_hpo: 0 finished trials in db, running 25 more
+[trial 0] combined=122.9 demo=86.4 val=159.4 val_acc=0.915 ort=159us pc6/7=0.44/0.72 (22:55)
+[I 2026-11-04 22:55:23,347] Trial 0 finished with value: 122.9038984610176 and parameters: {'ch': '24_48_72', 'k1': 9, 'k2': 5, 'k3': 9, 'dil2': 1, 'dil3': 2, 'epochs': 29, 'lr': 0.00249, 'weight_decay': 0.000139, 'label_smoothing': 0.0, 'sigma': 0.071, 'nanp': 0.022, 'c6w': 1.25, 'c7w': 2.23}. Best is trial 0 with value: 122.9038984610176.
+[trial 1] combined=122.4 demo=89.3 val=155.6 val_acc=0.911 ort=164us pc6/7=0.56/0.68 (23:01)
+[I 2026-11-04 23:01:48,916] Trial 1 finished with value: 122.43904634775782 and parameters: {'ch': '24_48_96', 'k1': 9, 'k2': 9, 'k3': 7, 'dil2': 1, 'dil3': 2, 'epochs': 34, 'lr': 0.000865, 'weight_decay': 1.4e-06, 'label_smoothing': 0.0, 'sigma': 0.09, 'nanp': 0.021, 'c6w': 2.92, 'c7w': 1.86}. Best is trial 0 with value: 122.9038984610176.
+[trial 2] combined=117.6 demo=90.9 val=144.4 val_acc=0.905 ort=160us pc6/7=0.68/0.54 (23:17)
+[I 2026-11-04 23:17:18,304] Trial 2 finished with value: 117.6454990156481 and parameters: {'ch': '24_48_96', 'k1': 3, 'k2': 7, 'k3': 11, 'dil2': 2, 'dil3': 4, 'epochs': 33, 'lr': 0.00269, 'weight_decay': 5.88e-05, 'label_smoothing': 0.0, 'sigma': 0.083, 'nanp': 0.013, 'c6w': 2.04, 'c7w': 0.75}. Best is trial 0 with value: 122.9038984610176.
+[trial 3] combined=109.5 demo=76.2 val=142.8 val_acc=0.897 ort=171us pc6/7=0.50/0.68 (23:28)
+[I 2026-11-04 23:28:09,877] Trial 3 finished with value: 109.48903378490701 and parameters: {'ch': '32_64_128', 'k1': 3, 'k2': 5, 'k3': 9, 'dil2': 1, 'dil3': 3, 'epochs': 44, 'lr': 0.0005516668234576248, 'weight_decay': 0.0002102330874348012, 'label_smoothing': 0.05, 'sigma': 0.13029261461986402, 'nanp': 0.02146610589989327, 'c6w': 2.233867993749514, 'c7w': 2.3987465413263234}. Best is trial 0 with value: 122.9038984610176.
+[trial 4] combined=113.5 demo=76.8 val=150.1 val_acc=0.897 ort=151us pc6/7=0.52/0.54 (23:35)
+[I 2026-11-04 23:35:46,200] Trial 4 finished with value: 113.47901823267252 and parameters: {'ch': '16_32_48', 'k1': 9, 'k2': 5, 'k3': 7, 'dil2': 1, 'dil3': 3, 'epochs': 63, 'lr': 0.0003742998582237652, 'weight_decay': 0.0008499206771743684, 'label_smoothing': 0.05, 'sigma': 0.14610426532177923, 'nanp': 0.008862131429595054, 'c6w': 1.5656139251528192, 'c7w': 0.916353810183704}. Best is trial 0 with value: 122.9038984610176.
+[I 2026-11-04 23:38:02,032] Trial 5 pruned. 
+[I 2026-11-04 23:39:05,802] Trial 6 pruned. 
+[trial 7] combined=122.3 demo=80.0 val=164.6 val_acc=0.913 ort=152us pc6/7=0.40/0.66 (23:45)
+[I 2026-11-04 23:45:01,589] Trial 7 finished with value: 122.29567844638598 and parameters: {'ch': '16_32_48', 'k1': 9, 'k2': 5, 'k3': 11, 'dil2': 1, 'dil3': 2, 'epochs': 49, 'lr': 0.001672822242881457, 'weight_decay': 2.7240744276720342e-06, 'label_smoothing': 0.0, 'sigma': 0.05156856027557045, 'nanp': 0.013078683192387265, 'c6w': 1.0755260111189437, 'c7w': 1.4311427081834762}. Best is trial 0 with value: 122.9038984610176.
+[trial 8] combined=120.6 demo=83.8 val=157.5 val_acc=0.911 ort=171us pc6/7=0.54/0.70 (23:51)
+[I 2026-11-04 23:51:50,360] Trial 8 finished with value: 120.64936631642672 and parameters: {'ch': '24_48_72', 'k1': 9, 'k2': 13, 'k3': 11, 'dil2': 1, 'dil3': 2, 'epochs': 35, 'lr': 0.0011873115960882525, 'weight_decay': 3.3995101101006055e-05, 'label_smoothing': 0.1, 'sigma': 0.12589131738055453, 'nanp': 0.010952355862785264, 'c6w': 2.5995296588253223, 'c7w': 2.314177889090092}. Best is trial 0 with value: 122.9038984610176.
+[I 2026-11-04 23:53:32,101] Trial 9 pruned. 
+[I 2026-11-04 23:55:25,165] Trial 10 pruned. 
+[trial 11] combined=122.7 demo=82.4 val=162.9 val_acc=0.916 ort=164us pc6/7=0.46/0.74 (00:01)
+[I 2026-11-05 00:01:36,519] Trial 11 finished with value: 122.66069132451352 and parameters: {'ch': '24_48_72', 'k1': 9, 'k2': 9, 'k3': 7, 'dil2': 1, 'dil3': 2, 'epochs': 34, 'lr': 0.001407610702510136, 'weight_decay': 4.445054684055456e-06, 'label_smoothing': 0.0, 'sigma': 0.10745261046913927, 'nanp': 0.015539248405833251, 'c6w': 1.7553036921699317, 'c7w': 2.0738240328243274}. Best is trial 0 with value: 122.9038984610176.
+[trial 12] combined=126.4 demo=92.3 val=160.4 val_acc=0.916 ort=161us pc6/7=0.54/0.68 (00:07)
+[I 2026-11-05 00:07:32,313] Trial 12 finished with value: 126.37884245490505 and parameters: {'ch': '24_48_72', 'k1': 9, 'k2': 5, 'k3': 7, 'dil2': 2, 'dil3': 2, 'epochs': 34, 'lr': 0.001801210106893133, 'weight_decay': 2.9019136803558874e-06, 'label_smoothing': 0.0, 'sigma': 0.12967522105267829, 'nanp': 0.016387453456343168, 'c6w': 1.367817646637298, 'c7w': 2.4999474395931442}. Best is trial 12 with value: 126.37884245490505.
+[I 2026-11-05 00:08:36,365] Trial 13 pruned. 
+[trial 14] combined=122.2 demo=86.9 val=157.5 val_acc=0.922 ort=176us pc6/7=0.46/0.70 (00:15)
+[I 2026-11-05 00:15:15,472] Trial 14 finished with value: 122.21508445923914 and parameters: {'ch': '32_64_128', 'k1': 9, 'k2': 5, 'k3': 9, 'dil2': 2, 'dil3': 2, 'epochs': 27, 'lr': 0.0027569922766305342, 'weight_decay': 9.966160040465711e-05, 'label_smoothing': 0.0, 'sigma': 0.07193133332952882, 'nanp': 0.014881802316674912, 'c6w': 1.511898398371283, 'c7w': 1.8807193148783496}. Best is trial 12 with value: 126.37884245490505.
+[I 2026-11-05 00:16:51,179] Trial 15 pruned. 
+[I 2026-11-05 00:20:31,034] Trial 16 pruned. 
+[I 2026-11-05 00:24:33,975] Trial 17 pruned. 
+[trial 18] combined=125.1 demo=90.4 val=159.7 val_acc=0.918 ort=168us pc6/7=0.48/0.74 (00:32)
+[I 2026-11-05 00:32:07,651] Trial 18 finished with value: 125.05177521423026 and parameters: {'ch': '24_48_72', 'k1': 9, 'k2': 13, 'k3': 9, 'dil2': 1, 'dil3': 2, 'epochs': 40, 'lr': 0.001922147328939768, 'weight_decay': 7.505428314561201e-05, 'label_smoothing': 0.0, 'sigma': 0.10526572234563458, 'nanp': 0.017452318591749352, 'c6w': 1.5846520452801807, 'c7w': 2.0979961782624583}. Best is trial 12 with value: 126.37884245490505.
+[I 2026-11-05 00:34:35,238] Trial 19 pruned. 
+[trial 20] combined=127.4 demo=96.1 val=158.8 val_acc=0.915 ort=166us pc6/7=0.58/0.72 (00:40)
+[I 2026-11-05 00:40:06,266] Trial 20 finished with value: 127.43155214562177 and parameters: {'ch': '24_48_72', 'k1': 7, 'k2': 13, 'k3': 9, 'dil2': 1, 'dil3': 2, 'epochs': 29, 'lr': 0.0016311390664540762, 'weight_decay': 0.00022430204473684572, 'label_smoothing': 0.05, 'sigma': 0.10052613898505487, 'nanp': 0.016354760031688495, 'c6w': 1.7460464387284327, 'c7w': 1.9429709981963557}. Best is trial 20 with value: 127.43155214562177.
+[I 2026-11-05 00:43:37,490] Trial 21 pruned. 
+[I 2026-11-05 00:45:20,259] Trial 22 pruned. 
+[I 2026-11-05 00:46:53,483] Trial 23 pruned. 
+[trial 24] combined=123.3 demo=90.7 val=156.0 val_acc=0.921 ort=175us pc6/7=0.46/0.78 (00:53)
+[I 2026-11-05 00:53:42,862] Trial 24 finished with value: 123.33586889789967 and parameters: {'ch': '32_64_128', 'k1': 9, 'k2': 5, 'k3': 7, 'dil2': 2, 'dil3': 2, 'epochs': 28, 'lr': 0.0027585899705389505, 'weight_decay': 0.0002762295470514235, 'label_smoothing': 0.0, 'sigma': 0.14059858029464994, 'nanp': 0.020229942579795573, 'c6w': 1.0214965764036272, 'c7w': 2.33247983789068}. Best is trial 20 with value: 127.43155214562177.
+
+BEST TRIAL:
+  combined=127.4 demo=96.1 val=158.8 val_acc=0.915 ort=166us pc6/7=[0.58, 0.72]
+  params: {'ch': '24_48_72', 'k1': 7, 'k2': 13, 'k3': 9, 'dil2': 1, 'dil3': 2, 'epochs': 29, 'lr': 0.0016311390664540762, 'weight_decay': 0.00022430204473684572, 'label_smoothing': 0.05, 'sigma': 0.10052613898505487, 'nanp': 0.016354760031688495, 'c6w': 1.7460464387284327, 'c7w': 1.9429709981963557}
+=== ALL DONE ===
+=== DONE OK 2026-11-05T00:53:43+01:00 ===
