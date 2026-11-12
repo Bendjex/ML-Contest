@@ -1,0 +1,62 @@
+=== start 2026-11-04T14:22:50+01:00 ===
+torch 2.15.0+cpu | threads 6
+prep: (100000, 4, 256) in 2s
+class weights: [0.7748934626579285, 0.8944543600082397, 0.8945344090461731, 1.0615711212158203, 1.0474494695663452, 1.0273269414901733, 1.2406947612762451, 1.2539185285568237]
+/home/olorin/.openclaw/workspace/projects/gdg-uam-ml-contest/experiments/05_cnn.py:171: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:820.)
+  tot += float(loss) * len(idx)
+epoch  1: loss=0.8485 val_acc=0.8256 (7s)
+epoch  2: loss=0.4364 val_acc=0.8472 (8s)
+epoch  3: loss=0.3845 val_acc=0.8670 (8s)
+epoch  4: loss=0.3538 val_acc=0.8730 (9s)
+epoch  5: loss=0.3360 val_acc=0.8768 (7s)
+epoch  6: loss=0.3207 val_acc=0.8823 (7s)
+epoch  7: loss=0.3092 val_acc=0.8799 (7s)
+epoch  8: loss=0.2978 val_acc=0.8813 (7s)
+epoch  9: loss=0.2878 val_acc=0.8746 (7s)
+epoch 10: loss=0.2810 val_acc=0.8744 (7s)
+epoch 11: loss=0.2732 val_acc=0.8843 (7s)
+epoch 12: loss=0.2678 val_acc=0.8826 (8s)
+epoch 13: loss=0.2608 val_acc=0.8793 (7s)
+epoch 14: loss=0.2544 val_acc=0.8882 (7s)
+epoch 15: loss=0.2495 val_acc=0.8862 (8s)
+epoch 16: loss=0.2453 val_acc=0.8864 (8s)
+epoch 17: loss=0.2399 val_acc=0.8841 (7s)
+epoch 18: loss=0.2369 val_acc=0.8847 (9s)
+epoch 19: loss=0.2306 val_acc=0.8860 (10s)
+epoch 20: loss=0.2279 val_acc=0.8899 (7s)
+epoch 21: loss=0.2238 val_acc=0.8863 (8s)
+epoch 22: loss=0.2196 val_acc=0.8853 (7s)
+epoch 23: loss=0.2182 val_acc=0.8830 (8s)
+epoch 24: loss=0.2137 val_acc=0.8847 (8s)
+epoch 25: loss=0.2106 val_acc=0.8835 (8s)
+epoch 26: loss=0.2074 val_acc=0.8859 (8s)
+epoch 27: loss=0.2033 val_acc=0.8813 (8s)
+epoch 28: loss=0.2043 val_acc=0.8864 (9s)
+epoch 29: loss=0.2002 val_acc=0.8825 (8s)
+epoch 30: loss=0.1956 val_acc=0.8813 (8s)
+
+BEST val_acc=0.8899
+confusion matrix (rows=true, cols=pred):
+   2542     6    55   226    14    13    64   168    | class 0
+      3  2840     0     2     0     0     2     0    | class 1
+     48     0  2636    17     2     1    13    41    | class 2
+    157     2    14  2243     2     1    20    56    | class 3
+     62     3     5    18  2309    27     3     6    | class 4
+     58     3     5    20    35  2293     8     4    | class 5
+     94     2     8    42     0     0  1548   369    | class 6
+    160     2    15    68     3     0   255  1387    | class 7
+per-class acc: ['0.82', '1.00', '0.96', '0.90', '0.95', '0.95', '0.75', '0.73']
+export check |max diff| = 4.29e-06
+numpy-forward val_acc=0.8899
+Traceback (most recent call last):
+  File "/home/olorin/.openclaw/workspace/projects/gdg-uam-ml-contest/experiments/05_cnn.py", line 249, in <module>
+    main()
+    ~~~~^^
+  File "/home/olorin/.openclaw/workspace/projects/gdg-uam-ml-contest/experiments/05_cnn.py", line 236, in main
+    lat_full = lat_of(lambda s: int(np.argmax(forward_np(prep_one(s.series), w))))
+  File "/home/olorin/.openclaw/workspace/projects/gdg-uam-ml-contest/experiments/05_cnn.py", line 233, in lat_of
+    return (time.perf_counter() - t0) / len(s)
+                                        ~~~^^^
+TypeError: object of type 'Sample' has no len()
+=== STEP FAIL ===

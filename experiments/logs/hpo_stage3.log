@@ -1,0 +1,18 @@
+=== start 2026-11-04T18:19:00+01:00 ===
+==============================================================================
+HPO STAGE 3 — untested levers on avg_aug40_c6w2
+objective: demo score (official formula, calib. ORT lat) + val score (control)
+==============================================================================
+
+probe      val_acc demo_acc  np_us  ort_us score_demo score_val  demo pc6/pc7
+meta         0.905    0.782    403     158       87.3     152.8  0.58/0.56  (314s)
+ep60         0.907    0.797    393     155       92.8     157.0  0.56/0.58  (469s)
+c67w2        0.902    0.782    396     156       81.5     155.4  0.40/0.70  (311s)
+dil3_4       0.901    0.767    383     153       78.6     149.9  0.50/0.52  (305s)
+augheavy     0.903    0.785    396     156       87.0     154.5  0.54/0.60  (304s)
+k1_7         0.902    0.805    386     154       97.9     157.1  0.58/0.64  (301s)
+
+BEST STAGE 3 (by combined demo+val): k1_7 (127.5 avg)
+Stage-2 winner reference: demo 81.5 / val ~93 (est)
+=== ALL DONE ===
+=== DONE OK 2026-11-04T18:52:33+01:00 ===

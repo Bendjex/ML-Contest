@@ -1,0 +1,35 @@
+=== start 2026-11-04T15:23:41+01:00 ===
+--- viz 12 (flach) ---
+[ok] experiments/plots/12_cnn_pass_flat.png
+--- profiler 10 ---
+PREP (NaN-interp + z-score):      62 us
+FORWARD Phasen (Mittelwert über 400 Samples):
+  conv1(pad+view+matmul)          88.5 us
+  pool1                           16.8 us
+  conv2                           79.2 us
+  pool2                           10.3 us
+  conv3(dil=2)                    84.4 us
+  global pool                     46.7 us
+  fc                               4.6 us
+  argmax                           4.6 us
+  SUMME forward                  335.1 us
+  GESAMT (prep+fwd)              396.8 us
+
+TORCH conv (single-thread):     212 us  (273 inkl prep)
+/home/olorin/.openclaw/workspace/projects/gdg-uam-ml-contest/experiments/10_latency_profile.py:144: DeprecationWarning: You are using the legacy TorchScript-based ONNX export. Starting in PyTorch 2.9, the new torch.export-based ONNX exporter has become the default. Learn more about the new export logic: https://docs.pytorch.org/docs/stable/onnx_export.html. For exporting control flow: https://pytorch.org/tutorials/beginner/onnx/export_control_flow_model_to_onnx_tutorial.html
+  torch.onnx.export(m, xt, str(onnx_path), input_names=["series"], output_names=["pooled"],
+
+ONNX-Export fehlgeschlagen: module 'onnx' has no attribute 'load_model_from_string'
+Traceback (most recent call last):
+  File "/home/olorin/.openclaw/workspace/projects/gdg-uam-ml-contest/experiments/10_latency_profile.py", line 171, in <module>
+    main()
+    ~~~~^^
+  File "/home/olorin/.openclaw/workspace/projects/gdg-uam-ml-contest/experiments/10_latency_profile.py", line 155, in main
+    sess = ort.InferenceSession(str(onnx_path), sess_options, providers=["CPUExecutionProvider"])
+  File "/tmp/mlc-venv/lib/python3.14/site-packages/onnxruntime/capi/onnxruntime_inference_collection.py", line 683, in __init__
+    self._create_inference_session(providers, provider_options, disabled_optimizers)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/mlc-venv/lib/python3.14/site-packages/onnxruntime/capi/onnxruntime_inference_collection.py", line 778, in _create_inference_session
+    sess = C.InferenceSession(session_options, self._model_path, True, self._read_config_from_model)
+onnxruntime.capi.onnxruntime_pybind11_state.NoSuchFile: [ONNXRuntimeError] : 3 : NO_SUCHFILE : Load model from /home/olorin/.openclaw/workspace/projects/gdg-uam-ml-contest/experiments/onnx/cnn_v6.onnx failed:Load model /home/olorin/.openclaw/workspace/projects/gdg-uam-ml-contest/experiments/onnx/cnn_v6.onnx failed. File doesn't exist
+=== STEP FAIL profiler ===

@@ -1,0 +1,16 @@
+=== start 2026-11-05T10:30:24+01:00 ===
+--- harness: test_demo (1 run) ---
+evaluating model (/home/olorin/.openclaw/workspace/projects/gdg-uam-ml-contest/submission/model.py)
+  [model] run 0  score=3.198  n=400  acc=0.807  latency=0.2ms  end=stream_exhausted  ok
+rank  project   mean   best  worst  median  trimmed_mean  mean_minus_std  failed_runs  mean_accuracy_all  mean_n_scored  mean_latency_s
+---------------------------------------------------------------------------------------------------------------------------------------
+   1  model    3.198  3.198  3.198   3.198         3.198           3.198            0             0.8075            400       0.0002497
+--- harness: train_100k (3 runs) ---
+evaluating model (/home/olorin/.openclaw/workspace/projects/gdg-uam-ml-contest/submission/model.py)
+  [model] run 0  score=85.870  n=100000  acc=0.930  latency=0.2ms  end=stream_exhausted  ok
+  [model] run 1  score=85.870  n=100000  acc=0.930  latency=0.2ms  end=stream_exhausted  ok
+  [model] run 2  score=85.870  n=100000  acc=0.930  latency=0.2ms  end=stream_exhausted  ok
+rank  project   mean   best  worst  median  trimmed_mean  mean_minus_std  failed_runs  mean_accuracy_all  mean_n_scored  mean_latency_s
+---------------------------------------------------------------------------------------------------------------------------------------
+   1  model    85.87  85.87  85.87   85.87         85.87           85.87            0             0.9295          1e+05       0.0002342
+=== DONE OK 2026-11-05T10:32:44+01:00 ===

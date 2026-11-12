@@ -1,0 +1,36 @@
+=== start 2026-11-04T12:50:04+01:00 ===
+prep_batch: (100000, 1024) in 2s
+mlp s0: val_acc=0.487 iters=73 CONVERGED fit=155s
+mlp s1: val_acc=0.488 iters=112 CONVERGED fit=217s
+mlp s2: val_acc=0.489 iters=89 CONVERGED fit=161s
+ENSEMBLE(3x mlp300): val_acc=0.528 per_class=['0.39', '0.95', '0.88', '0.51', '0.26', '0.26', '0.52', '0.33']
+baselines: tree_d14 val_acc=0.213 | gbm300 val_acc=0.710
+Traceback (most recent call last):
+  File "/home/olorin/.openclaw/workspace/projects/gdg-uam-ml-contest/experiments/02_mlp_v2_train.py", line 206, in <module>
+    main()
+    ~~~~^^
+  File "/home/olorin/.openclaw/workspace/projects/gdg-uam-ml-contest/experiments/02_mlp_v2_train.py", line 178, in main
+    lat_tree = lat_of(lambda s: int(tree.predict(base_features(s)[np.newaxis, :])[0]))
+  File "/home/olorin/.openclaw/workspace/projects/gdg-uam-ml-contest/experiments/02_mlp_v2_train.py", line 161, in lat_of
+    fn(s)
+    ~~^^^
+  File "/home/olorin/.openclaw/workspace/projects/gdg-uam-ml-contest/experiments/02_mlp_v2_train.py", line 178, in <lambda>
+    lat_tree = lat_of(lambda s: int(tree.predict(base_features(s)[np.newaxis, :])[0]))
+                                    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/mlc-venv/lib/python3.14/site-packages/sklearn/tree/_classes.py", line 525, in predict
+    X = self._validate_X_predict(X, check_input)
+  File "/tmp/mlc-venv/lib/python3.14/site-packages/sklearn/tree/_classes.py", line 484, in _validate_X_predict
+    X = validate_data(
+        self,
+    ...<4 lines>...
+        ensure_all_finite=ensure_all_finite,
+    )
+  File "/tmp/mlc-venv/lib/python3.14/site-packages/sklearn/utils/validation.py", line 3062, in validate_data
+    _check_n_features(_estimator, X, reset=reset)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/mlc-venv/lib/python3.14/site-packages/sklearn/utils/validation.py", line 2926, in _check_n_features
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: X has 101 features, but DecisionTreeClassifier is expecting 1024 features as input.
+=== STEP FAIL train ===

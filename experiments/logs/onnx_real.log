@@ -1,0 +1,22 @@
+=== start 2026-11-04T15:29:23+01:00 ===
+torch vs numpy: |max diff| = 1.91e-06
+/home/olorin/.openclaw/workspace/projects/gdg-uam-ml-contest/experiments/13_onnx_real.py:138: DeprecationWarning: You are using the legacy TorchScript-based ONNX export. Starting in PyTorch 2.9, the new torch.export-based ONNX exporter has become the default. Learn more about the new export logic: https://docs.pytorch.org/docs/stable/onnx_export.html. For exporting control flow: https://pytorch.org/tutorials/beginner/onnx/export_control_flow_model_to_onnx_tutorial.html
+  torch.onnx.export(m, xt, str(onnx_path), input_names=["series"], output_names=["logits"],
+ONNX exportiert: /home/olorin/.openclaw/workspace/projects/gdg-uam-ml-contest/submission/cnn_v6.onnx (101 KB)
+ORT val_acc = 0.9018 (numpy war 0.9018) | 20k in 1s unthrottled
+Diskrepanz ORT vs numpy auf 2k: 0 Samples
+
+LATENCY prep+ORT: 142 us/call (prep 61 us)
+n(60 s) ~ 421,328 | n_k ~ 52,666
+  class 0: acc=0.842 T_k=128.5
+  class 1: acc=0.999 T_k=228.7
+  class 2: acc=0.967 T_k=205.2
+  class 3: acc=0.895 T_k=158.4
+  class 4: acc=0.972 T_k=208.5
+  class 5: acc=0.973 T_k=209.6
+  class 6: acc=0.732 T_k=79.3
+  class 7: acc=0.770 T_k=94.4
+
+GEOMEAN SCORE (ORT-Pfad, Projektion) ~ 153.8  (numpy: 82.4, tree: 22)
+=== ALL DONE ===
+=== DONE OK 2026-11-04T15:29:29+01:00 ===

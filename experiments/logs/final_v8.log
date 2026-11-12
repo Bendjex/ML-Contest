@@ -1,0 +1,25 @@
+=== start 2026-11-04T17:20:27+01:00 ===
+--- export + verify ---
+torch vs numpy: |max diff| = 2.86e-06
+/home/olorin/.openclaw/workspace/projects/gdg-uam-ml-contest/experiments/18_final_export.py:115: DeprecationWarning: You are using the legacy TorchScript-based ONNX export. Starting in PyTorch 2.9, the new torch.export-based ONNX exporter has become the default. Learn more about the new export logic: https://docs.pytorch.org/docs/stable/onnx_export.html. For exporting control flow: https://pytorch.org/tutorials/beginner/onnx/export_control_flow_model_to_onnx_tutorial.html
+  torch.onnx.export(m, xt, str(onnx_path), input_names=["series"], output_names=["logits"],
+ONNX exportiert: /home/olorin/.openclaw/workspace/projects/gdg-uam-ml-contest/submission/cnn_v8.onnx (101 KB)
+ORT vs numpy auf 5k val: 0 Abweichungen
+ORT val_acc (5k): 0.9102
+prep+ORT latency: 151 us/call
+=== EXPORT DONE ===
+--- official harness: test_demo (1 run, honest eval-like) ---
+evaluating model (/home/olorin/.openclaw/workspace/projects/gdg-uam-ml-contest/submission/model.py)
+  [model] run 0  score=2.649  n=400  acc=0.775  latency=0.2ms  end=stream_exhausted  ok
+rank  project   mean   best  worst  median  trimmed_mean  mean_minus_std  failed_runs  mean_accuracy_all  mean_n_scored  mean_latency_s
+---------------------------------------------------------------------------------------------------------------------------------------
+   1  model    2.649  2.649  2.649   2.649         2.649           2.649            0              0.775            400       0.0001896
+--- official harness: train_100k (3 runs, comparison to v6 78.16) ---
+evaluating model (/home/olorin/.openclaw/workspace/projects/gdg-uam-ml-contest/submission/model.py)
+  [model] run 0  score=78.706  n=100000  acc=0.912  latency=0.2ms  end=stream_exhausted  ok
+  [model] run 1  score=78.706  n=100000  acc=0.912  latency=0.2ms  end=stream_exhausted  ok
+  [model] run 2  score=78.706  n=100000  acc=0.912  latency=0.2ms  end=stream_exhausted  ok
+rank  project   mean   best  worst  median  trimmed_mean  mean_minus_std  failed_runs  mean_accuracy_all  mean_n_scored  mean_latency_s
+---------------------------------------------------------------------------------------------------------------------------------------
+   1  model    78.71  78.71  78.71   78.71         78.71           78.71            0             0.9124          1e+05       0.0001804
+=== DONE OK 2026-11-04T17:22:22+01:00 ===

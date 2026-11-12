@@ -1,0 +1,4 @@
+=== LATENCY BENCHMARK (harness-style) ===
+tree depth14: total=719 us/call | features=554 us | model=166 us | -> n_official(60s) ~ 83,413
+gbm(300): total=31364 us/call | features=541 us | model=30824 us | -> n_official(60s) ~ 1,913
+=== DONE ===

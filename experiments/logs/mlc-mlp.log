@@ -1,0 +1,20 @@
+=== start 2026-11-04T12:44:55+01:00 ===
+prep_batch: (100000, 1024) in 2s
+/tmp/mlc-venv/lib/python3.14/site-packages/sklearn/neural_network/_multilayer_perceptron.py:785: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (40) reached and the optimization hasn't converged yet.
+  warnings.warn(
+mlp seed=0: val_acc=0.483 iters=40 fit=73s
+/tmp/mlc-venv/lib/python3.14/site-packages/sklearn/neural_network/_multilayer_perceptron.py:785: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (40) reached and the optimization hasn't converged yet.
+  warnings.warn(
+mlp seed=1: val_acc=0.484 iters=40 fit=71s
+/tmp/mlc-venv/lib/python3.14/site-packages/sklearn/neural_network/_multilayer_perceptron.py:785: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (40) reached and the optimization hasn't converged yet.
+  warnings.warn(
+mlp seed=2: val_acc=0.489 iters=40 fit=70s
+ENSEMBLE(3x mlp): val_acc=0.527 (proba eval 0s)
+LATENCY single mlp: 355 us (prep 61 us) -> n(60s) ~ 169,244
+LATENCY ensemble(3): 873 us -> n(60s) ~ 68,704
+SCORE PROJECTION mlp1: acc=0.483 lat=355us n~169,244 -> geomean score ~ 10.6
+SCORE PROJECTION ensemble3: acc=0.527 lat=873us n~68,704 -> geomean score ~ 9.5
+SCORE PROJECTION tree d14: acc=0.638 lat=719us n~83,449 -> geomean score ~ 21.6
+SCORE PROJECTION gbm300: acc=0.820 lat=31364us n~1,913 -> geomean score ~ 7.9
+=== ALL DONE ===
+=== DONE OK 2026-11-04T12:48:34+01:00 ===

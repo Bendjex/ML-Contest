@@ -1,0 +1,38 @@
+=== start 2026-11-04T13:17:56+01:00 ===
+baseline features: (100000, 101) in 53s
+upgraded features: (100000, 114) in 56s
+
+DIAGNOSTIC dominant frequency (Hz) per class x sample_rate:
+  class 0: sr=1 0.062 Hz | sr=2 0.078 Hz | ratio 1.26
+  class 1: sr=1 0.073 Hz | sr=2 0.081 Hz | ratio 1.11
+  class 2: sr=1 0.050 Hz | sr=2 0.053 Hz | ratio 1.07
+  class 3: sr=1 0.067 Hz | sr=2 0.079 Hz | ratio 1.18
+  class 4: sr=1 0.076 Hz | sr=2 0.078 Hz | ratio 1.03
+  class 5: sr=1 0.074 Hz | sr=2 0.073 Hz | ratio 0.99
+  class 6: sr=1 0.059 Hz | sr=2 0.062 Hz | ratio 1.04
+  class 7: sr=1 0.050 Hz | sr=2 0.059 Hz | ratio 1.19
+
+=== feature set: base ===
+tree d14 [base]                    val_acc=0.638 worst_class=0.411 fit=10s
+RandomForest(100,d14) [base]       val_acc=0.686 worst_class=0.453 fit=64s
+ExtraTrees(100,d16) [base]         val_acc=0.672 worst_class=0.476 fit=11s
+HistGBM(300,bal) [base]            val_acc=0.820 worst_class=0.558 fit=49s
+
+=== feature set: upg ===
+tree d14 [upg]                     val_acc=0.635 worst_class=0.413 fit=11s
+RandomForest(100,d14) [upg]        val_acc=0.692 worst_class=0.457 fit=62s
+ExtraTrees(100,d16) [upg]          val_acc=0.688 worst_class=0.449 fit=11s
+HistGBM(300,bal) [upg]             val_acc=0.821 worst_class=0.552 fit=56s
+
+LATENCY (single-thread, one call at a time) + SCORE PROJECTION:
+  feature cost: base 526 us | upgraded 537 us
+  tree(base):     681 us/call acc=0.638 -> score ~ 22.1
+  rf(base):    6521 us/call acc=0.686 -> score ~ 9.3
+  et(base):    6589 us/call acc=0.672 -> score ~ 8.6
+  gbm(base):   19822 us/call acc=0.820 -> score ~ 10.0
+  tree(upg):     739 us/call acc=0.635 -> score ~ 20.9
+  rf(upg):    6507 us/call acc=0.692 -> score ~ 9.6
+  et(upg):    6677 us/call acc=0.688 -> score ~ 9.3
+  gbm(upg):   20101 us/call acc=0.821 -> score ~ 9.9
+=== ALL DONE ===
+=== DONE OK 2026-11-04T13:24:52+01:00 ===
